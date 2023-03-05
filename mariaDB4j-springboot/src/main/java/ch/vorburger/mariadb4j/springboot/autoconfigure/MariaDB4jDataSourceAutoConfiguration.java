@@ -20,6 +20,10 @@
 package ch.vorburger.mariadb4j.springboot.autoconfigure;
 
 import javax.sql.DataSource;
+
+//CHECKSTYLE:OFF
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+//CHECKSTYLE:ON
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -30,9 +34,10 @@ import org.springframework.context.annotation.DependsOn;
 //separate with MariaDB4jSpringConfiguration for test of it
 @Configuration
 @ConfigurationProperties("spring.datasource")
-public class DataSourceAutoConfiguration {
+public class MariaDB4jDataSourceAutoConfiguration {
 
     @Bean
+    @ConditionalOnMissingBean({DataSource.class})
     @DependsOn("mariaDB4j")
     public DataSource dataSource(DataSourceProperties dataSourceProperties) {
         return DataSourceBuilder.create()
